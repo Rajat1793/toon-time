@@ -94,7 +94,7 @@ export default function LapsTab({
   };
 
   return (
-    <section className={`w-full max-w-4xl px-4 md:px-8 mt-6 mb-16 animate-fadeIn pb-12 ${textPrimary}`}>
+    <section className={`w-full max-w-4xl mx-auto px-4 md:px-8 mt-6 mb-16 animate-fadeIn pb-12 ${textPrimary}`}>
 
       {/* Elegant Header sticker badge */}
       <div className="mb-10 text-left select-none">

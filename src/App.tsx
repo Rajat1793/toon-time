@@ -240,7 +240,7 @@ export default function App() {
         )}
 
         {/* Main Content Area */}
-        <main className="flex-grow px-4 md:px-10 py-10 pb-28 md:pb-12 max-w-[960px] mx-auto w-full transition-all">
+        <main className="flex-grow px-4 md:px-10 py-10 pb-28 md:pb-12 w-full transition-all">
           
           {/* All tabs are always mounted so timers/stopwatch keep running in background */}
           <div className={currentView === 'timer' ? '' : 'hidden'}>

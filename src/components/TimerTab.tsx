@@ -283,7 +283,7 @@ export default function TimerTab({
       )}
 
       {/* Large Display Container */}
-      <div className={`w-full max-w-2xl ${cardBg} border ${borderC} rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden`}>
+      <div className={`w-full max-w-3xl ${cardBg} border ${borderC} rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden`}>
         
         {!isRunning ? (
           /* SETUP VIEW */
@@ -439,7 +439,7 @@ export default function TimerTab({
       </div>
 
       {/* Features Bento Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-3xl">
         
         {/* Focus Sessions Card (Take 2 columns) */}
         <div className={`col-span-1 md:col-span-2 ${cardBg} ${textPri} p-6 border ${borderC} rounded-2xl flex flex-col justify-between`}>
