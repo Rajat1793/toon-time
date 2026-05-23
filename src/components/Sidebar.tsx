@@ -1,3 +1,4 @@
+import React from 'react';
 import { Timer, Hourglass, ClipboardList, Award, Sparkles, Grid3X3 } from 'lucide-react';
 import { ActiveView, UserProfile } from '../types';
 
@@ -7,6 +8,7 @@ interface SidebarProps {
   userProfile: UserProfile;
   proUnlocked: boolean;
   onOpenUpgrade: () => void;
+  isDottedBgOn: boolean;
 }
 
 export default function Sidebar({
@@ -15,15 +17,29 @@ export default function Sidebar({
   userProfile,
   proUnlocked,
   onOpenUpgrade,
+  isDottedBgOn,
 }: SidebarProps) {
+  const bg          = isDottedBgOn ? 'bg-white'              : 'bg-[#0F0F0F]';
+  const borderColor = isDottedBgOn ? 'border-[#0F0F0F]/10'  : 'border-white/10';
+  const cardBg      = isDottedBgOn ? 'bg-[#F0F0F0]'         : 'bg-[#1A1A1A]';
+  const textPrimary = isDottedBgOn ? 'text-[#0F0F0F]'       : 'text-white';
+  const textMuted   = isDottedBgOn ? 'text-[#0F0F0F]/50'    : 'text-white/50';
+  const navInactive = isDottedBgOn
+    ? 'text-[#0F0F0F]/60 border border-transparent hover:text-[#0F0F0F] hover:bg-[#0F0F0F]/5 hover:border-[#0F0F0F]/10'
+    : 'text-white/60 border border-transparent hover:text-white hover:bg-white/5 hover:border-white/10';
+  const dividerBorder = isDottedBgOn ? 'border-[#0F0F0F]/5' : 'border-white/5';
+  const upgradeBtnClass = isDottedBgOn
+    ? `w-full ${cardBg} text-[#0F0F0F] hover:text-orange-500 hover:border-orange-500 font-sans text-xs font-bold py-3 px-4 rounded-xl border ${borderColor} transition-all cursor-pointer uppercase tracking-widest`
+    : `w-full bg-[#1A1A1A] text-white hover:text-orange-500 hover:border-orange-500 font-sans text-xs font-bold py-3 px-4 rounded-xl border border-white/10 transition-all cursor-pointer uppercase tracking-widest`;
+
   return (
-    <aside className="hidden md:flex flex-col gap-6 p-6 h-[calc(100vh-5rem)] sticky top-20 bg-[#0F0F0F] border-r border-white/10 w-64 shrink-0 z-10 transition-colors">
+    <aside className={`hidden md:flex flex-col gap-6 p-6 h-[calc(100vh-5rem)] sticky top-20 ${bg} border-r ${borderColor} w-64 shrink-0 z-10 transition-colors`}>
       {/* Profile Card */}
-      <div className="flex items-center gap-3 p-3 bg-[#1A1A1A] border border-white/10 rounded-2xl">
+      <div className={`flex items-center gap-3 p-3 ${cardBg} border ${borderColor} rounded-2xl`}>
         <div className="relative">
           <img
             alt={userProfile.name}
-            className="w-11 h-11 rounded-full border border-white/20 bg-[#2A2A2A] object-cover shrink-0"
+            className={`w-11 h-11 rounded-full border ${borderColor} ${cardBg} object-cover shrink-0`}
             src={userProfile.avatarUrl}
             referrerPolicy="no-referrer"
           />
@@ -34,11 +50,11 @@ export default function Sidebar({
           )}
         </div>
         <div className="min-w-0">
-          <div className="font-sans text-sm font-bold text-white truncate leading-none mb-1">
+          <div className={`font-sans text-sm font-bold ${textPrimary} truncate leading-none mb-1`}>
             {userProfile.name}
           </div>
           <div className="flex items-center gap-1">
-            <span className="font-sans text-[10px] font-medium text-white/50 tracking-wider uppercase">
+            <span className={`font-sans text-[10px] font-medium ${textMuted} tracking-wider uppercase`}>
               {userProfile.role}
             </span>
             {proUnlocked && (
@@ -52,68 +68,44 @@ export default function Sidebar({
 
       {/* Navigation */}
       <nav className="flex flex-col gap-2 mt-2">
-        <button
-          onClick={() => onChangeView('stopwatch')}
-          className={`flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all cursor-pointer ${
-            currentView === 'stopwatch'
-              ? 'bg-orange-600 text-black border border-orange-600'
-              : 'text-white/60 border border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
-          }`}
-        >
-          <Timer className="w-4 h-4 shrink-0" />
-          <span>Stopwatch</span>
-        </button>
-
-        <button
-          onClick={() => onChangeView('timer')}
-          className={`flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all cursor-pointer ${
-            currentView === 'timer'
-              ? 'bg-orange-600 text-black border border-orange-600'
-              : 'text-white/60 border border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
-          }`}
-        >
-          <Hourglass className="w-4 h-4 shrink-0" />
-          <span>Timer</span>
-        </button>
-
-        <button
-          onClick={() => onChangeView('laps')}
-          className={`flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all cursor-pointer ${
-            currentView === 'laps'
-              ? 'bg-orange-600 text-black border border-orange-600'
-              : 'text-white/60 border border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
-          }`}
-        >
-          <ClipboardList className="w-4 h-4 shrink-0" />
-          <span>Laps</span>
-        </button>
-
-        <button
-          onClick={() => onChangeView('tictactoe')}
-          className={`flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all cursor-pointer ${
-            currentView === 'tictactoe'
-              ? 'bg-orange-600 text-black border border-orange-600'
-              : 'text-white/60 border border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
-          }`}
-        >
-          <Grid3X3 className="w-4 h-4 shrink-0" />
-          <span>Tic Tac Toe</span>
-        </button>
+        {(['stopwatch', 'timer', 'laps', 'tictactoe'] as const).map((view) => {
+          const labels: Record<string, string> = { stopwatch: 'Stopwatch', timer: 'Timer', laps: 'Laps', tictactoe: 'Tic Tac Toe' };
+          const icons: Record<string, React.ReactNode> = {
+            stopwatch: <Timer className="w-4 h-4 shrink-0" />,
+            timer: <Hourglass className="w-4 h-4 shrink-0" />,
+            laps: <ClipboardList className="w-4 h-4 shrink-0" />,
+            tictactoe: <Grid3X3 className="w-4 h-4 shrink-0" />,
+          };
+          return (
+            <button
+              key={view}
+              onClick={() => onChangeView(view)}
+              className={`flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all cursor-pointer ${
+                currentView === view
+                  ? 'bg-orange-600 text-black border border-orange-600'
+                  : navInactive
+              }`}
+            >
+              {icons[view]}
+              <span>{labels[view]}</span>
+            </button>
+          );
+        })}
       </nav>
 
       {/* Upgrade Callout */}
-      <div className="mt-auto pt-4 border-t border-white/5">
+      <div className={`mt-auto pt-4 border-t ${dividerBorder}`}>
         {proUnlocked ? (
-          <div className="bg-[#1A1A1A] border border-orange-600/20 rounded-2xl p-3 flex items-center gap-2">
+          <div className={`${cardBg} border border-orange-600/20 rounded-2xl p-3 flex items-center gap-2`}>
             <Award className="w-4 h-4 text-orange-500 animate-pulse" />
-            <span className="font-sans text-[10px] font-bold text-white/80 uppercase tracking-wider">
+            <span className={`font-sans text-[10px] font-bold ${isDottedBgOn ? 'text-[#0F0F0F]/80' : 'text-white/80'} uppercase tracking-wider`}>
               Premium License Active
             </span>
           </div>
         ) : (
           <button
             onClick={onOpenUpgrade}
-            className="w-full bg-[#1A1A1A] text-white hover:text-orange-500 hover:border-orange-500 font-sans text-xs font-bold py-3 px-4 rounded-xl border border-white/10 transition-all cursor-pointer uppercase tracking-widest"
+            className={upgradeBtnClass}
           >
             Upgrade to Pro
           </button>

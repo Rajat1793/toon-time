@@ -131,6 +131,7 @@ export default function App() {
         onOpenSettings={() => setShowSettings(true)} 
         onOpenHelp={() => setShowHelp(true)} 
         onToggleSidebar={handleToggleSidebarMobile}
+        isDottedBgOn={appSettings.isDottedBgOn}
       />
 
       <div className="flex-1 flex max-w-[1440px] w-full mx-auto relative">
@@ -144,6 +145,7 @@ export default function App() {
           userProfile={userProfile}
           proUnlocked={appSettings.proUnlocked}
           onOpenUpgrade={() => setShowUpgrade(true)}
+          isDottedBgOn={appSettings.isDottedBgOn}
         />
 
         {/* Slidable mobile drawer menu inside desktop container */}
@@ -277,7 +279,7 @@ export default function App() {
       </div>
 
       {/* Bottom Sticky Navigation (for Mobile screens) */}
-      <MobileNav currentView={currentView} onChangeView={setCurrentView} />
+      <MobileNav currentView={currentView} onChangeView={setCurrentView} isDottedBgOn={appSettings.isDottedBgOn} />
 
       {/* Popups and drawer overlays */}
       {showSettings && (
