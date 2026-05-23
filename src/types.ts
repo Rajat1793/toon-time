@@ -1,4 +1,4 @@
-export type ActiveView = 'timer' | 'stopwatch' | 'laps';
+export type ActiveView = 'timer' | 'stopwatch' | 'laps' | 'tictactoe';
 
 export interface Lap {
   id: string;

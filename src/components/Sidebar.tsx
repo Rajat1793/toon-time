@@ -1,4 +1,4 @@
-import { Timer, Hourglass, ClipboardList, Award, Sparkles } from 'lucide-react';
+import { Timer, Hourglass, ClipboardList, Award, Sparkles, Grid3X3 } from 'lucide-react';
 import { ActiveView, UserProfile } from '../types';
 
 interface SidebarProps {
@@ -86,6 +86,18 @@ export default function Sidebar({
         >
           <ClipboardList className="w-4 h-4 shrink-0" />
           <span>Laps</span>
+        </button>
+
+        <button
+          onClick={() => onChangeView('tictactoe')}
+          className={`flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-semibold rounded-full transition-all cursor-pointer ${
+            currentView === 'tictactoe'
+              ? 'bg-orange-600 text-black border border-orange-600'
+              : 'text-white/60 border border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
+          }`}
+        >
+          <Grid3X3 className="w-4 h-4 shrink-0" />
+          <span>Tic Tac Toe</span>
         </button>
       </nav>
 

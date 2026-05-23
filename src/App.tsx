@@ -7,6 +7,7 @@ import MobileNav from './components/MobileNav';
 import TimerTab from './components/TimerTab';
 import StopwatchTab from './components/StopwatchTab';
 import LapsTab from './components/LapsTab';
+import TicTacToeTab from './components/TicTacToeTab';
 
 // Modals
 import SettingsModal from './components/SettingsModal';
@@ -206,6 +207,19 @@ export default function App() {
                 >
                   <span>Laps</span>
                 </button>
+                <button
+                  onClick={() => {
+                    setCurrentView('tictactoe');
+                    setShowSidebarMobile(false);
+                  }}
+                  className={`flex items-center gap-3 p-3 font-sans text-xs font-bold rounded-xl cursor-pointer transition-all ${
+                    currentView === 'tictactoe'
+                      ? 'bg-orange-600 text-black'
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <span>Tic Tac Toe</span>
+                </button>
               </div>
 
               <div className="mt-auto">
@@ -253,6 +267,10 @@ export default function App() {
               onActivatePreset={handleActivatePreset}
               isDottedBgOn={appSettings.isDottedBgOn}
             />
+          </div>
+
+          <div className={currentView === 'tictactoe' ? '' : 'hidden'}>
+            <TicTacToeTab isDottedBgOn={appSettings.isDottedBgOn} />
           </div>
 
         </main>

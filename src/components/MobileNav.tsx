@@ -1,4 +1,4 @@
-import { Timer, Hourglass, ClipboardList } from 'lucide-react';
+import { Timer, Hourglass, ClipboardList, Grid3X3 } from 'lucide-react';
 import { ActiveView } from '../types';
 
 interface MobileNavProps {
@@ -43,6 +43,18 @@ export default function MobileNav({ currentView, onChangeView }: MobileNavProps)
       >
         <ClipboardList className="w-4 h-4" />
         <span className="font-sans text-[9px] font-bold uppercase tracking-widest mt-0.5">Laps</span>
+      </button>
+
+      <button
+        onClick={() => onChangeView('tictactoe')}
+        className={`flex flex-col items-center justify-center flex-1 py-1.5 px-3 rounded-full transition-all active:scale-95 cursor-pointer ${
+          currentView === 'tictactoe'
+            ? 'bg-orange-600 text-black border border-orange-600 font-bold'
+            : 'text-white/60 hover:text-white'
+        }`}
+      >
+        <Grid3X3 className="w-4 h-4" />
+        <span className="font-sans text-[9px] font-bold uppercase tracking-widest mt-0.5">Game</span>
       </button>
     </nav>
   );
