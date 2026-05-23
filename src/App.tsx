@@ -134,7 +134,7 @@ export default function App() {
         isDottedBgOn={appSettings.isDottedBgOn}
       />
 
-      <div className="flex-1 flex max-w-[1440px] w-full mx-auto relative">
+      <div className="flex-1 flex max-w-[1600px] w-full mx-auto relative">
         {/* Sidebar Left Component (Desktop Mode) */}
         <Sidebar
           currentView={currentView}
