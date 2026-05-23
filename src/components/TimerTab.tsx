@@ -248,16 +248,24 @@ export default function TimerTab({
 
   const incompleteCount = tasks.filter(t => !t.completed).length;
 
-  // Calculat progress and animate anchor
+  const isDottedBgOn = appSettings.isDottedBgOn;
+  const cardBg  = isDottedBgOn ? 'bg-white'            : 'bg-[#1A1A1A]';
+  const cardBg2 = isDottedBgOn ? 'bg-[#F0F0F0]'        : 'bg-[#2A2A2A]';
+  const borderC = isDottedBgOn ? 'border-[#0F0F0F]/10' : 'border-white/10';
+  const textPri = isDottedBgOn ? 'text-[#0F0F0F]'      : 'text-[#F0EFEA]';
+  const textSec = isDottedBgOn ? 'text-[#0F0F0F]/60'   : 'text-[#F0EFEA]/60';
+  const textMut = isDottedBgOn ? 'text-[#0F0F0F]/40'   : 'text-white/40';
+
+  // Calculate progress and animate anchor
   const progressPercent = initialTime > 0 ? (1 - timeLeft / initialTime) : 0;
   // Let the anchor bob sideways based on a sine wave of the remaining seconds
   const anchorBobAmount = isRunning && !isPaused ? Math.sin(timeLeft) * 8 : 0;
 
   return (
-    <section className="w-full flex flex-col items-center gap-12 mt-4 relative text-[#F0EFEA]">
+    <section className={`w-full flex flex-col items-center gap-12 mt-4 relative ${textPri}`}>
       {/* Decorative Anchor Track on the Right (Only viewable when timer is running on Desktop) */}
       {isRunning && (
-        <div className="absolute right-0 top-0 w-16 h-[320px] hidden lg:flex flex-col items-center pointer-events-none z-10 bg-[#1A1A1A]/80 border border-white/10 rounded-full p-1 shadow-inner">
+        <div className={`absolute right-0 top-0 w-16 h-[320px] hidden lg:flex flex-col items-center pointer-events-none z-10 ${isDottedBgOn ? 'bg-[#E0E0E0]/80' : 'bg-[#1A1A1A]/80'} border ${borderC} rounded-full p-1 shadow-inner`}>
           <div className="w-0.5 bg-white/10 h-full absolute top-0 left-1/2 -translate-x-1/2"></div>
           <div 
             className="absolute left-1/2 flex flex-col items-center transition-all duration-300"
@@ -275,12 +283,12 @@ export default function TimerTab({
       )}
 
       {/* Large Display Container */}
-      <div className="w-full max-w-2xl bg-[#1A1A1A] border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden">
+      <div className={`w-full max-w-2xl ${cardBg} border ${borderC} rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden`}>
         
         {!isRunning ? (
           /* SETUP VIEW */
           <div className="w-full flex flex-col items-center animate-fadeIn">
-            <div className="font-sans text-xs font-semibold text-[#F0EFEA]/60 uppercase tracking-widest mb-6 select-none">
+            <div className={`font-sans text-xs font-semibold ${textSec} uppercase tracking-widest mb-6 select-none`}>
               Set Duration
             </div>
 
@@ -292,7 +300,7 @@ export default function TimerTab({
                 <button
                   type="button"
                   onClick={() => adjustTime('min', 1)}
-                  className="w-10 h-10 bg-[#2A2A2A] hover:bg-[#3A3A3A] border border-white/10 hover:border-orange-500 rounded-full flex items-center justify-center text-white transition-all cursor-pointer"
+                  className={`w-10 h-10 ${cardBg2} ${isDottedBgOn ? 'hover:bg-[#E0E0E0]' : 'hover:bg-[#3A3A3A]'} border ${borderC} hover:border-orange-500 rounded-full flex items-center justify-center ${textPri} transition-all cursor-pointer`}
                 >
                   <ChevronUp className="w-5 h-5 stroke-[2.5]" />
                 </button>
@@ -304,7 +312,7 @@ export default function TimerTab({
                     const parsed = parseInt(e.target.value);
                     if (!isNaN(parsed)) setMinutes(Math.max(0, Math.min(99, parsed)));
                   }}
-                  className="w-24 h-24 text-center font-heading text-5xl bg-[#2A2A2A] text-white border border-white/10 focus:border-orange-500 rounded-2xl focus:ring-0 focus:outline-none p-2 font-black transition-colors"
+                  className={`w-24 h-24 text-center font-heading text-5xl ${cardBg2} ${textPri} border ${borderC} focus:border-orange-500 rounded-2xl focus:ring-0 focus:outline-none p-2 font-black transition-colors`}
                   max="99"
                   min="0"
                 />
@@ -312,21 +320,21 @@ export default function TimerTab({
                 <button
                   type="button"
                   onClick={() => adjustTime('min', -1)}
-                  className="w-10 h-10 bg-[#2A2A2A] hover:bg-[#3A3A3A] border border-white/10 hover:border-orange-500 rounded-full flex items-center justify-center text-white transition-all cursor-pointer"
+                  className={`w-10 h-10 ${cardBg2} ${isDottedBgOn ? 'hover:bg-[#E0E0E0]' : 'hover:bg-[#3A3A3A]'} border ${borderC} hover:border-orange-500 rounded-full flex items-center justify-center ${textPri} transition-all cursor-pointer`}
                 >
                   <ChevronDown className="w-5 h-5 stroke-[2.5]" />
                 </button>
-                <span className="font-sans text-[10px] font-bold mt-2 text-white/50 tracking-wider">MIN</span>
+                <span className={`font-sans text-[10px] font-bold mt-2 ${textMut} tracking-wider`}>MIN</span>
               </div>
 
-              <span className="font-heading text-5xl font-black text-white/40 select-none">:</span>
+              <span className={`font-heading text-5xl font-black ${textMut} select-none`}>:</span>
 
               {/* Seconds Column */}
               <div className="flex flex-col items-center">
                 <button
                   type="button"
                   onClick={() => adjustTime('sec', 1)}
-                  className="w-10 h-10 bg-[#2A2A2A] hover:bg-[#3A3A3A] border border-white/10 hover:border-orange-500 rounded-full flex items-center justify-center text-white transition-all cursor-pointer"
+                  className={`w-10 h-10 ${cardBg2} ${isDottedBgOn ? 'hover:bg-[#E0E0E0]' : 'hover:bg-[#3A3A3A]'} border ${borderC} hover:border-orange-500 rounded-full flex items-center justify-center ${textPri} transition-all cursor-pointer`}
                 >
                   <ChevronUp className="w-5 h-5 stroke-[2.5]" />
                 </button>
@@ -338,7 +346,7 @@ export default function TimerTab({
                     const parsed = parseInt(e.target.value);
                     if (!isNaN(parsed)) setSeconds(Math.max(0, Math.min(59, parsed)));
                   }}
-                  className="w-24 h-24 text-center font-heading text-5xl bg-[#2A2A2A] text-white border border-white/10 focus:border-orange-500 rounded-2xl focus:ring-0 focus:outline-none p-2 font-black transition-colors"
+                  className={`w-24 h-24 text-center font-heading text-5xl ${cardBg2} ${textPri} border ${borderC} focus:border-orange-500 rounded-2xl focus:ring-0 focus:outline-none p-2 font-black transition-colors`}
                   max="59"
                   min="0"
                 />
@@ -346,11 +354,11 @@ export default function TimerTab({
                 <button
                   type="button"
                   onClick={() => adjustTime('sec', -1)}
-                  className="w-10 h-10 bg-[#2A2A2A] hover:bg-[#3A3A3A] border border-white/10 hover:border-orange-500 rounded-full flex items-center justify-center text-white transition-all cursor-pointer"
+                  className={`w-10 h-10 ${cardBg2} ${isDottedBgOn ? 'hover:bg-[#E0E0E0]' : 'hover:bg-[#3A3A3A]'} border ${borderC} hover:border-orange-500 rounded-full flex items-center justify-center ${textPri} transition-all cursor-pointer`}
                 >
                   <ChevronDown className="w-5 h-5 stroke-[2.5]" />
                 </button>
-                <span className="font-sans text-[10px] font-bold mt-2 text-white/50 tracking-wider">SEC</span>
+                <span className={`font-sans text-[10px] font-bold mt-2 ${textMut} tracking-wider`}>SEC</span>
               </div>
 
             </div>
@@ -387,7 +395,7 @@ export default function TimerTab({
             <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.1)_1px,_transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none"></div>
             
             {/* Countdown timer */}
-            <div className="font-heading text-6xl md:text-8xl font-black tracking-tight mb-12 tabular-nums text-[#F0EFEA] select-none z-10 font-bold">
+            <div className={`font-heading text-6xl md:text-8xl font-black tracking-tight mb-12 tabular-nums ${textPri} select-none z-10 font-bold`}>
               {formatTime(timeLeft)}
             </div>
 
@@ -398,8 +406,8 @@ export default function TimerTab({
                 title={isPaused ? "Resume" : "Pause"}
                 className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isPaused 
-                    ? 'bg-orange-600 text-black border-orange-600 hover:bg-[#ea580c]' 
-                    : 'bg-transparent text-white border-white/20 hover:bg-white/5'
+                    ? 'bg-orange-600 text-black border-orange-600 hover:bg-[#ea580c]'
+                    : isDottedBgOn ? 'bg-transparent text-[#0F0F0F] border-[#0F0F0F]/15 hover:bg-[#0F0F0F]/5' : 'bg-transparent text-[#F0EFEA] border-white/20 hover:bg-white/5'
                 }`}
               >
                 {isPaused ? (
@@ -412,14 +420,14 @@ export default function TimerTab({
               <button
                 onClick={resetTimer}
                 title="Reset Timer"
-                className="w-16 h-16 bg-transparent text-[#F0EFEA]/80 hover:text-white rounded-full border border-white/20 hover:bg-white/5 flex items-center justify-center transition-all cursor-pointer"
+                className={`w-16 h-16 bg-transparent ${textSec} ${isDottedBgOn ? 'hover:text-[#0F0F0F] border-[#0F0F0F]/15 hover:bg-[#0F0F0F]/5' : 'hover:text-white border-white/20 hover:bg-white/5'} rounded-full border flex items-center justify-center transition-all cursor-pointer`}
               >
                 <RotateCcw className="w-6 h-6" />
               </button>
             </div>
 
             {/* Micro progress indicator */}
-            <div className="w-full max-w-sm mt-8 border border-white/10 rounded-full h-3 bg-[#2A2A2A] p-0.5 overflow-hidden">
+              <div className={`w-full max-w-sm mt-8 border ${borderC} rounded-full h-3 ${cardBg2} p-0.5 overflow-hidden`}>
               <div 
                 className="bg-orange-600 h-full rounded-full transition-all duration-300" 
                 style={{ width: `${(timeLeft / initialTime) * 100}%` }}
@@ -434,12 +442,12 @@ export default function TimerTab({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-2xl">
         
         {/* Focus Sessions Card (Take 2 columns) */}
-        <div className="col-span-1 md:col-span-2 bg-[#1A1A1A] text-[#F0EFEA] p-6 border border-white/10 rounded-2xl flex flex-col justify-between">
+        <div className={`col-span-1 md:col-span-2 ${cardBg} ${textPri} p-6 border ${borderC} rounded-2xl flex flex-col justify-between`}>
           <div>
-            <div className="font-heading text-xl md:text-2xl font-black mb-3 text-white italic tracking-tight">
+            <div className={`font-heading text-xl md:text-2xl font-black mb-3 ${textPri} italic tracking-tight`}>
               Focus Sessions
             </div>
-            <p className="font-sans text-xs md:text-sm leading-relaxed mb-6 font-medium text-[#F0EFEA]/60">
+            <p className={`font-sans text-xs md:text-sm leading-relaxed mb-6 font-medium ${textSec}`}>
               Channel your inner Popeye. Each focused session powers up your productivity meter. 
               Earn <strong>"Spinach Points"</strong> for completing rounds without interruption.
             </p>
@@ -447,18 +455,18 @@ export default function TimerTab({
           
           <div className="flex items-center gap-4">
             <div className="flex -space-x-2">
-              <div className="w-9 h-9 rounded-full border border-orange-600/30 bg-[#2A2A2A] flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer" title="Bolt of Strength">
+              <div className={`w-9 h-9 rounded-full border border-orange-600/30 ${cardBg2} flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer`} title="Bolt of Strength">
                 <Zap className="w-4 h-4 text-orange-500" fill="currentColor" />
               </div>
-              <div className="w-9 h-9 rounded-full border border-orange-600/30 bg-[#2A2A2A] flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer" title="Star Achiever">
+              <div className={`w-9 h-9 rounded-full border border-orange-600/30 ${cardBg2} flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer`} title="Star Achiever">
                 <Star className="w-4 h-4 text-amber-500" fill="currentColor" />
               </div>
-              <div className="w-9 h-9 rounded-full border border-orange-600/30 bg-[#2A2A2A] flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer" title="Premium Log Badge">
+              <div className={`w-9 h-9 rounded-full border border-orange-600/30 ${cardBg2} flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer`} title="Premium Log Badge">
                 <Award className="w-4 h-4 text-orange-400" fill="currentColor" />
               </div>
             </div>
 
-            <div className="text-[10px] font-sans font-bold uppercase py-1 px-3 bg-white/5 border border-white/10 rounded-full text-orange-400 tracking-wider">
+            <div className={`text-[10px] font-sans font-bold uppercase py-1 px-3 ${isDottedBgOn ? 'bg-[#0F0F0F]/5 border-[#0F0F0F]/10' : 'bg-white/5 border-white/10'} border rounded-full text-orange-400 tracking-wider`}>
               🥬 points: {appSettings.spinachPoints}
             </div>
           </div>
@@ -467,15 +475,15 @@ export default function TimerTab({
         {/* Ahoy / Checklist Trigger Card (1 column) */}
         <button
           onClick={() => setShowTaskModal(true)}
-          className="bg-[#1A1A1A] border border-orange-600/20 hover:border-orange-500 text-orange-500 p-6 rounded-2xl flex flex-col items-center justify-center text-center cursor-pointer group hover:scale-[1.02] transition-transform"
+          className={`${cardBg} border border-orange-600/20 hover:border-orange-500 text-orange-500 p-6 rounded-2xl flex flex-col items-center justify-center text-center cursor-pointer group hover:scale-[1.02] transition-transform`}
         >
-          <div className="w-12 h-12 rounded-full bg-[#2A2A2A] border border-orange-500/20 flex items-center justify-center mb-3 shadow-sm group-hover:rotate-12 transition-transform">
+          <div className={`w-12 h-12 rounded-full ${cardBg2} border border-orange-500/20 flex items-center justify-center mb-3 shadow-sm group-hover:rotate-12 transition-transform`}>
             <Anchor className="w-5 h-5 text-orange-500" />
           </div>
-          <div className="font-heading text-lg font-bold uppercase select-none tracking-wider text-white">
+          <div className={`font-heading text-lg font-bold uppercase select-none tracking-wider ${textPri}`}>
             Ahoy!
           </div>
-          <div className="font-sans text-[10px] font-black opacity-80 mt-2 select-none tracking-widest text-[#F0EFEA]/60">
+          <div className={`font-sans text-[10px] font-black opacity-80 mt-2 select-none tracking-widest ${textSec}`}>
             {incompleteCount} {incompleteCount === 1 ? 'TASK' : 'TASKS'} LEFT
           </div>
           <span className="text-[10px] uppercase font-bold text-orange-400 mt-2 hover:underline shrink-0">
