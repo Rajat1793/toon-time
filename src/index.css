@@ -29,9 +29,9 @@
   }
 
   .grid-bg {
-    background-image: radial-gradient(#1a1c1c 1.5px, transparent 1.5px);
+    background-image: radial-gradient(#306D29 1.5px, transparent 1.5px);
     background-size: 32px 32px;
-    background-color: #f9f9f9;
+    background-color: #FBF5DD;
   }
 
   .dial-spin {

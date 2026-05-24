@@ -9,13 +9,13 @@ interface StopwatchTabProps {
 }
 
 export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchTabProps) {
-  const textPrimary = isDottedBgOn ? 'text-[#0F0F0F]'      : 'text-[#F0EFEA]';
-  const textSec     = isDottedBgOn ? 'text-[#0F0F0F]/60'   : 'text-[#F0EFEA]/60';
-  const textMut     = isDottedBgOn ? 'text-[#0F0F0F]/40'   : 'text-white/40';
-  const cardBg      = isDottedBgOn ? 'bg-white'            : 'bg-[#1A1A1A]';
-  const cardBg2     = isDottedBgOn ? 'bg-[#F0F0F0]'        : 'bg-[#2A2A2A]';
-  const borderC     = isDottedBgOn ? 'border-[#0F0F0F]/10' : 'border-white/10';
-  const borderC15   = isDottedBgOn ? 'border-[#0F0F0F]/10' : 'border-white/15';
+  const textPrimary = isDottedBgOn ? 'text-[#0D530E]'       : 'text-[#FBF5DD]';
+  const textSec     = isDottedBgOn ? 'text-[#0D530E]/70'    : 'text-[#FBF5DD]/70';
+  const textMut     = isDottedBgOn ? 'text-[#0D530E]/40'    : 'text-[#FBF5DD]/40';
+  const cardBg      = isDottedBgOn ? 'bg-[#FBF5DD]'         : 'bg-[#16421A]';
+  const cardBg2     = isDottedBgOn ? 'bg-[#E7E1B1]'         : 'bg-[#1F5523]';
+  const borderC     = isDottedBgOn ? 'border-[#0D530E]/15'  : 'border-[#FBF5DD]/15';
+  const borderC15   = isDottedBgOn ? 'border-[#0D530E]/15'  : 'border-[#FBF5DD]/15';
   const [milliseconds, setMilliseconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   
@@ -66,6 +66,25 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
 
   const handleLap = () => {
     if (milliseconds === 0) return;
+    // Ship-bell lap chime: two crisp pings
+    try {
+      const ctx = new AudioContext();
+      const ping = (freq: number, start: number) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.28, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.7);
+        osc.start(start);
+        osc.stop(start + 0.7);
+      };
+      const now = ctx.currentTime;
+      ping(1047, now);        // C6
+      ping(1319, now + 0.14); // E6
+    } catch (_) {}
     const newLapTime = getFormattedTime(milliseconds);
     
     // List of fun, random, pirate/sailor quotes for Lap comments in Captain's Log
@@ -113,7 +132,7 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
             {getFormattedTime(milliseconds)}
           </div>
 
-          <div className="mt-4 font-sans text-[10px] font-bold text-orange-400 bg-orange-600/10 border border-orange-500/20 inline-block px-4 py-1.5 rounded-full uppercase tracking-widest select-none">
+          <div className="mt-4 font-sans text-[10px] font-bold text-[#306D29] bg-[#306D29]/10 border border-[#306D29]/25 inline-block px-4 py-1.5 rounded-full uppercase tracking-widest select-none">
             EST. 1929
           </div>
         </div>
@@ -121,14 +140,14 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
 
       {/* Spinach Power Progress Bar */}
       <section className="w-full">
-        <div className={`flex justify-between items-end mb-2 font-sans text-[11px] font-bold uppercase tracking-widest ${isDottedBgOn ? 'text-[#0F0F0F]/60' : 'text-[#F0EFEA]/60'} select-none`}>
+        <div className={`flex justify-between items-end mb-2 font-sans text-[11px] font-bold uppercase tracking-widest ${isDottedBgOn ? 'text-[#0D530E]/60' : 'text-[#FBF5DD]/60'} select-none`}>
           <span>Spinach Power</span>
           <span>{progressPercent}%</span>
         </div>
         
         <div className={`w-full h-10 border ${borderC15} ${cardBg} rounded-full p-1 overflow-hidden`}>
           <div 
-            className="h-full bg-orange-600 rounded-full transition-all duration-300 flex items-center justify-end px-3 select-none" 
+            className="h-full bg-[#306D29] rounded-full transition-all duration-300 flex items-center justify-end px-3 select-none" 
             style={{ width: `${progressPercent}%` }}
           >
             {progressPercent > 5 && (
@@ -144,10 +163,10 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
         {/* Toggle Start/Pause Button */}
         <button
           onClick={handleStartPause}
-          className={`flex-1 min-w-[130px] h-16 rounded-full font-sans text-xs font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 text-white cursor-pointer ${
+          className={`flex-1 min-w-[130px] h-16 rounded-full font-sans text-xs font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer ${
             isRunning 
-              ? 'bg-red-600 hover:bg-red-700 border border-red-600' 
-              : 'bg-orange-600 hover:bg-orange-700 text-black border border-orange-600'
+              ? 'bg-red-600 hover:bg-red-700 border border-red-600 text-[#FBF5DD]' 
+              : 'bg-[#306D29] hover:bg-[#0D530E] text-[#FBF5DD] border border-[#306D29]'
           }`}
         >
           {isRunning ? (
@@ -170,7 +189,7 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
           className={`flex-1 min-w-[130px] h-16 rounded-full border font-sans text-xs font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer ${cardBg} ${
             milliseconds === 0 
               ? `opacity-30 cursor-not-allowed ${borderC} ${textMut}` 
-              : `${borderC} ${isDottedBgOn ? 'hover:border-[#0F0F0F]/20 hover:bg-[#F0F0F0]' : 'hover:border-white/40 hover:bg-[#2A2A2A]'} ${textPrimary}`
+              : `${borderC} ${isDottedBgOn ? 'hover:border-[#0D530E]/20 hover:bg-[#E7E1B1]' : 'hover:border-[#FBF5DD]/30 hover:bg-[#1F5523]'} ${textPrimary}`
           }`}
         >
           <Flag className="w-4 h-4 fill-white stroke-none" />
@@ -180,7 +199,7 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
         {/* Clear/Reset Button */}
         <button
           onClick={handleReset}
-          className={`w-16 h-16 rounded-full border ${borderC} ${cardBg} ${textPrimary} ${isDottedBgOn ? 'hover:bg-[#0F0F0F]/5' : 'hover:bg-white/5'} transition-all flex items-center justify-center shrink-0 cursor-pointer`}
+          className={`w-16 h-16 rounded-full border ${borderC} ${cardBg} ${textPrimary} ${isDottedBgOn ? 'hover:bg-[#0D530E]/5' : 'hover:bg-[#FBF5DD]/5'} transition-all flex items-center justify-center shrink-0 cursor-pointer`}
           title="Reset"
         >
           <RotateCcw className="w-5 h-5" />
@@ -196,17 +215,17 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
         
         <div className="flex flex-col gap-3 max-h-72 overflow-y-auto pr-1">
           {laps.length === 0 ? (
-              <div className={`text-center py-8 border border-dashed ${borderC} ${isDottedBgOn ? 'bg-[#0F0F0F]/5' : 'bg-[#1A1A1A]/30'} ${textMut} text-xs font-semibold rounded-2xl select-none uppercase tracking-widest`}>
+              <div className={`text-center py-8 border border-dashed ${borderC} ${isDottedBgOn ? 'bg-[#0D530E]/5' : 'bg-[#16421A]/30'} ${textMut} text-xs font-semibold rounded-2xl select-none uppercase tracking-widest`}>
               No laps logged yet, Sailor! Click LAP during timing.
             </div>
           ) : (
             laps.map((lap, i) => (
               <div 
                 key={lap.id}
-                className={`flex items-center justify-between p-4 border ${borderC} ${cardBg} rounded-2xl shadow-md ${isDottedBgOn ? 'hover:border-[#0F0F0F]/20 hover:bg-[#F0F0F0]' : 'hover:border-white/20 hover:bg-[#202020]'} transition-all animate-fadeIn`}
+                className={`flex items-center justify-between p-4 border ${borderC} ${cardBg} rounded-2xl shadow-md ${isDottedBgOn ? 'hover:border-[#0D530E]/20 hover:bg-[#E7E1B1]' : 'hover:border-[#FBF5DD]/20 hover:bg-[#1F5523]'} transition-all animate-fadeIn`}
               >
                 <div className="flex items-center gap-3">
-                  <span className={`w-8 h-8 rounded-full ${isDottedBgOn ? 'bg-[#0F0F0F]/5' : 'bg-white/5'} flex items-center justify-center border ${borderC} font-sans text-xs font-bold ${textSec} shrink-0`}>
+                  <span className={`w-8 h-8 rounded-full ${isDottedBgOn ? 'bg-[#0D530E]/5' : 'bg-[#FBF5DD]/5'} flex items-center justify-center border ${borderC} font-sans text-xs font-bold ${textSec} shrink-0`}>
                     {laps.length - i}
                   </span>
                   <div>
@@ -220,7 +239,7 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
                     )}
                   </div>
                 </div>
-                <span className="font-heading text-lg font-bold tabular-nums text-orange-500">
+                <span className="font-heading text-lg font-bold tabular-nums text-[#306D29]">
                   {lap.time}
                 </span>
               </div>
@@ -230,7 +249,7 @@ export default function StopwatchTab({ laps, setLaps, isDottedBgOn }: StopwatchT
       </section>
 
       {/* Fun Mascot Illustration bouncing */}
-      <div className={`pointer-events-none mt-4 select-none shrink-0 border ${borderC} ${isDottedBgOn ? 'bg-[#F0F0F0]/80' : 'bg-[#1A1A1A]/80'} p-3 rounded-2xl shadow-xl`} style={{ transform: "translateY(10px)" }}>
+      <div className={`pointer-events-none mt-4 select-none shrink-0 border ${borderC} ${isDottedBgOn ? 'bg-[#E7E1B1]/80' : 'bg-[#16421A]/80'} p-3 rounded-2xl shadow-xl`} style={{ transform: "translateY(10px)" }}>
         <img
           alt="Popeye Strongarm Strength Mascot"
           className="w-20 h-20 object-contain selection:bg-transparent filter invert"

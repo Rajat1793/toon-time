@@ -29,14 +29,14 @@ export default function LapsTab({
   onActivatePreset,
   isDottedBgOn,
 }: LapsTabProps) {
-  const textPrimary = isDottedBgOn ? 'text-[#0F0F0F]'      : 'text-[#F0EFEA]';
-  const textSec     = isDottedBgOn ? 'text-[#0F0F0F]/60'   : 'text-[#F0EFEA]/60';
-  const textMut     = isDottedBgOn ? 'text-[#0F0F0F]/40'   : 'text-white/40';
-  const cardBg      = isDottedBgOn ? 'bg-white'            : 'bg-[#1A1A1A]';
-  const cardBg2     = isDottedBgOn ? 'bg-[#F0F0F0]'        : 'bg-[#2A2A2A]';
-  const borderC     = isDottedBgOn ? 'border-[#0F0F0F]/10' : 'border-white/10';
-  const borderC15   = isDottedBgOn ? 'border-[#0F0F0F]/10' : 'border-white/15';
-  const borderC5    = isDottedBgOn ? 'border-[#0F0F0F]/5'  : 'border-white/5';
+  const textPrimary = isDottedBgOn ? 'text-[#0D530E]'       : 'text-[#FBF5DD]';
+  const textSec     = isDottedBgOn ? 'text-[#0D530E]/70'    : 'text-[#FBF5DD]/70';
+  const textMut     = isDottedBgOn ? 'text-[#0D530E]/40'    : 'text-[#FBF5DD]/40';
+  const cardBg      = isDottedBgOn ? 'bg-[#FBF5DD]'         : 'bg-[#16421A]';
+  const cardBg2     = isDottedBgOn ? 'bg-[#E7E1B1]'         : 'bg-[#1F5523]';
+  const borderC     = isDottedBgOn ? 'border-[#0D530E]/15'  : 'border-[#FBF5DD]/15';
+  const borderC15   = isDottedBgOn ? 'border-[#0D530E]/15'  : 'border-[#FBF5DD]/15';
+  const borderC5    = isDottedBgOn ? 'border-[#0D530E]/5'   : 'border-[#FBF5DD]/5';
   const [showAddTimerModal, setShowAddTimerModal] = useState(false);
   
   // Custom Timer Form State
@@ -85,11 +85,11 @@ export default function LapsTab({
   const renderTimerIcon = (iconName: string) => {
     switch (iconName) {
       case 'utensils':
-        return <Utensils className="w-5 h-5 text-orange-400" />;
+        return <Utensils className="w-5 h-5 text-[#306D29]" />;
       case 'zap':
-        return <Flame className="w-5 h-5 text-amber-500" />;
+        return <Flame className="w-5 h-5 text-[#E7E1B1]" />;
       default:
-        return <Activity className="w-5 h-5 text-orange-500" />;
+        return <Activity className="w-5 h-5 text-[#306D29]" />;
     }
   };
 
@@ -98,7 +98,7 @@ export default function LapsTab({
 
       {/* Elegant Header sticker badge */}
       <div className="mb-10 text-left select-none">
-        <span className="font-sans text-[10px] font-black text-orange-500 uppercase tracking-widest bg-orange-600/10 border border-orange-500/20 px-3 py-1 rounded-full">
+        <span className="font-sans text-[10px] font-black text-[#306D29] uppercase tracking-widest bg-[#306D29]/10 border border-[#306D29]/25 px-3 py-1 rounded-full">
           CHRONICLE
         </span>
         <h1 className={`font-heading text-4xl md:text-5xl font-extrabold tracking-tight ${textPrimary} mt-3`}>
@@ -112,7 +112,7 @@ export default function LapsTab({
         {/* Recent Laps list column */}
         <div className="flex flex-col gap-6">
           <h2 className={`font-heading text-lg font-bold ${textPrimary} uppercase tracking-widest flex items-center gap-2 select-none`}>
-            <Anchor className="w-5 h-5 text-orange-500" />
+            <Anchor className="w-5 h-5 text-[#306D29]" />
             <span>Recent Laps</span>
           </h2>
 
@@ -127,13 +127,13 @@ export default function LapsTab({
               renderedLaps.map((lap) => (
               <div 
                 key={lap.id}
-                className={`p-5 cursor-pointer ${cardBg} border ${borderC} rounded-2xl shadow-xl hover:-translate-y-0.5 ${isDottedBgOn ? 'hover:border-[#0F0F0F]/20' : 'hover:border-white/20'} transition-all duration-300`}
+                className={`p-5 cursor-pointer ${cardBg} border ${borderC} rounded-2xl shadow-xl hover:-translate-y-0.5 ${isDottedBgOn ? 'hover:border-[#0D530E]/20' : 'hover:border-[#FBF5DD]/20'} transition-all duration-300`}
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-sans text-[9px] font-extrabold bg-orange-600 text-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="font-sans text-[9px] font-extrabold bg-[#306D29] text-[#FBF5DD] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     LAP #{lap.num}
                   </span>
-                  <span className={`text-white/40 font-bold text-xs select-none`}>
+                  <span className={`text-[#FBF5DD]/40 font-bold text-xs select-none`}>
                     {lap.timestamp}
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export default function LapsTab({
         {/* History / Saved Preset timers list column */}
         <div className="flex flex-col gap-6">
           <h2 className={`font-heading text-lg font-bold ${textPrimary} uppercase tracking-widest flex items-center gap-2 select-none`}>
-            <History className="w-5 h-5 text-orange-500" />
+            <History className="w-5 h-5 text-[#306D29]" />
             <span>Saved Presets</span>
           </h2>
 
@@ -171,7 +171,7 @@ export default function LapsTab({
               return (
                 <div 
                   key={timer.id}
-                  className={`${cardBg} p-5 border ${borderC} rounded-2xl shadow-xl hover:-translate-y-0.5 ${isDottedBgOn ? 'hover:border-[#0F0F0F]/20' : 'hover:border-white/20'} transition-all duration-300`}
+                  className={`${cardBg} p-5 border ${borderC} rounded-2xl shadow-xl hover:-translate-y-0.5 ${isDottedBgOn ? 'hover:border-[#0D530E]/20' : 'hover:border-[#FBF5DD]/20'} transition-all duration-300`}
                 >
                   <div className="flex items-center gap-3.5 mb-4">
                     <div className={`w-10 h-10 ${cardBg2} border ${borderC} rounded-full flex items-center justify-center shrink-0`}>
@@ -188,12 +188,12 @@ export default function LapsTab({
                   </div>
 
                   <div className={`${cardBg2} border ${borderC5} p-3 flex justify-between items-center rounded-xl shadow-inner`}>
-                    <span className="font-heading text-2xl font-bold text-orange-500 leading-none tabular-nums">
+                    <span className="font-heading text-2xl font-bold text-[#306D29] leading-none tabular-nums">
                       {formattedTime}
                     </span>
                     <button
                       onClick={() => onActivatePreset(timer.id)}
-                      className="bg-orange-600 hover:bg-orange-700 text-black p-2 rounded-lg cursor-pointer transition-colors flex items-center justify-center shrink-0"
+                      className="bg-[#306D29] hover:bg-[#0D530E] text-[#FBF5DD] p-2 rounded-lg cursor-pointer transition-colors flex items-center justify-center shrink-0"
                       title="Load Setup and Start"
                     >
                       <Play className="w-5 h-5 fill-current" />
@@ -206,9 +206,9 @@ export default function LapsTab({
             {/* Log New Task Trigger */}
               <button
               onClick={() => setShowAddTimerModal(true)}
-              className={`w-full h-32 border border-dashed ${borderC15} rounded-3xl flex flex-col items-center justify-center gap-2 ${textMut} ${isDottedBgOn ? 'hover:text-[#0F0F0F] bg-[#0F0F0F]/5 hover:bg-[#0F0F0F]/10 hover:border-[#0F0F0F]/20' : 'hover:text-white bg-[#1A1A1A]/40 hover:bg-[#1A1A1A]/85 hover:border-white/30'} transition-all cursor-pointer`}
+              className={`w-full h-32 border border-dashed ${borderC15} rounded-3xl flex flex-col items-center justify-center gap-2 ${textMut} ${isDottedBgOn ? 'hover:text-[#0D530E] bg-[#0D530E]/5 hover:bg-[#0D530E]/10 hover:border-[#0D530E]/20' : 'hover:text-[#FBF5DD] bg-[#16421A]/40 hover:bg-[#16421A]/85 hover:border-[#FBF5DD]/25'} transition-all cursor-pointer`}
             >
-              <PlusCircle className="w-8 h-8 text-orange-500 shrink-0" />
+              <PlusCircle className="w-8 h-8 text-[#306D29] shrink-0" />
               <span className="font-sans text-xs font-bold uppercase tracking-widest">Log New Preset</span>
             </button>
 
@@ -219,7 +219,7 @@ export default function LapsTab({
 
       {/* Hero Poster segment at bottom of Captains log */}
       <div className="w-full mt-16 select-none">
-        <div className={`border ${borderC} overflow-hidden rounded-3xl ${isDottedBgOn ? 'bg-[#F0F0F0]/90' : 'bg-[#1A1A1A]/90'} relative`}>
+          <div className={`border ${borderC} overflow-hidden rounded-3xl ${isDottedBgOn ? 'bg-[#E7E1B1]/90' : 'bg-[#16421A]/90'} relative`}>
           <img
             className="w-full h-[280px] object-cover opacity-20 object-bottom shrink-0 select-none filter blur-[0.5px] grayscale hover:grayscale-0 transition-all duration-700"
             alt="Captain using custom oversized stopwatch representation"
@@ -228,7 +228,7 @@ export default function LapsTab({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
           <div className={`absolute bottom-6 left-6 right-6 ${cardBg} border ${borderC} p-5 rounded-2xl shadow-xl`}>
-            <p className="font-heading text-lg font-bold text-orange-500 uppercase tracking-widest italic">
+            <p className="font-heading text-lg font-bold text-[#306D29] uppercase tracking-widest italic">
               "Every second counts, Sailor!"
             </p>
             <p className={`font-sans text-xs ${textSec} mt-1`}>
@@ -241,17 +241,17 @@ export default function LapsTab({
       {/* Add New Preset Modal */}
       {showAddTimerModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 animate-fadeIn">
-          <div className="bg-[#0F0F0F] border border-white/10 rounded-3xl w-full max-w-sm p-6 relative text-white shadow-2xl">
+          <div className="bg-[#0D530E] border border-[#FBF5DD]/15 rounded-3xl w-full max-w-sm p-6 relative text-[#FBF5DD] shadow-2xl">
             <button
               onClick={() => setShowAddTimerModal(false)}
-              className="absolute top-4 right-4 text-white/60 hover:text-white p-1 cursor-pointer"
+              className="absolute top-4 right-4 text-[#FBF5DD]/60 hover:text-[#FBF5DD] p-1 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-2.5">
-              <Notebook className="w-5 h-5 text-orange-500" />
-              <h3 className="font-heading text-lg font-bold text-white italic tracking-tight">
+            <div className="flex items-center gap-2 mb-4 border-b border-[#FBF5DD]/15 pb-2.5">
+              <Notebook className="w-5 h-5 text-[#306D29]" />
+              <h3 className="font-heading text-lg font-bold text-[#FBF5DD] italic tracking-tight">
                 New Captain Preset
               </h3>
             </div>
@@ -270,7 +270,7 @@ export default function LapsTab({
                   onChange={(e) => setNewTitle(e.target.value)}
                   maxLength={25}
                   required
-                  className={`w-full px-3.5 py-2 border ${borderC} focus:border-orange-500 rounded-xl text-sm font-sans focus:outline-none ${cardBg2} ${textPrimary}`}
+                  className={`w-full px-3.5 py-2 border ${borderC} focus:border-[#306D29] rounded-xl text-sm font-sans focus:outline-none ${cardBg2} ${textPrimary}`}
                 />
               </div>
 
@@ -286,7 +286,7 @@ export default function LapsTab({
                     max="99"
                     value={newMinutes}
                     onChange={(e) => setNewMinutes(Math.max(0, parseInt(e.target.value) || 0))}
-                    className={`w-full p-2 border ${borderC} focus:border-orange-500 ${cardBg2} ${textPrimary} rounded-xl text-center font-bold text-sm`}
+                    className={`w-full p-2 border ${borderC} focus:border-[#306D29] ${cardBg2} ${textPrimary} rounded-xl text-center font-bold text-sm`}
                   />
                 </div>
                 <div>
@@ -299,7 +299,7 @@ export default function LapsTab({
                     max="59"
                     value={newSeconds}
                     onChange={(e) => setNewSeconds(Math.max(0, Math.min(59, parseInt(e.target.value) || 0)))}
-                    className={`w-full p-2 border ${borderC} focus:border-orange-500 ${cardBg2} ${textPrimary} rounded-xl text-center font-bold text-sm`}
+                    className={`w-full p-2 border ${borderC} focus:border-[#306D29] ${cardBg2} ${textPrimary} rounded-xl text-center font-bold text-sm`}
                   />
                 </div>
               </div>
@@ -315,8 +315,8 @@ export default function LapsTab({
                     onClick={() => setNewIcon('utensils')}
                     className={`p-2.5 border rounded-xl flex items-center justify-center flex-1 cursor-pointer transition-all ${
                       newIcon === 'utensils' 
-                        ? 'bg-orange-600 border-white/10 text-black font-bold' 
-                        : `${borderC5} ${cardBg} ${textSec} ${isDottedBgOn ? 'hover:text-[#0F0F0F] hover:bg-[#F0F0F0]' : 'hover:text-white hover:bg-[#2A2A2A]'}`
+                        ? 'bg-[#306D29] border-[#FBF5DD]/15 text-[#FBF5DD] font-bold' 
+                        : `${borderC5} ${cardBg} ${textSec} ${isDottedBgOn ? 'hover:text-[#0D530E] hover:bg-[#E7E1B1]' : 'hover:text-[#FBF5DD] hover:bg-[#1F5523]'}`
                     }`}
                   >
                     <Utensils className="w-5 h-5" />
@@ -326,8 +326,8 @@ export default function LapsTab({
                     onClick={() => setNewIcon('activity')}
                     className={`p-2.5 border rounded-xl flex items-center justify-center flex-1 cursor-pointer transition-all ${
                       newIcon === 'activity' 
-                        ? 'bg-orange-600 border-white/10 text-black font-bold' 
-                        : `${borderC5} ${cardBg} ${textSec} ${isDottedBgOn ? 'hover:text-[#0F0F0F] hover:bg-[#F0F0F0]' : 'hover:text-white hover:bg-[#2A2A2A]'}`
+                        ? 'bg-[#306D29] border-[#FBF5DD]/15 text-[#FBF5DD] font-bold' 
+                        : `${borderC5} ${cardBg} ${textSec} ${isDottedBgOn ? 'hover:text-[#0D530E] hover:bg-[#E7E1B1]' : 'hover:text-[#FBF5DD] hover:bg-[#1F5523]'}`
                     }`}
                   >
                     <Activity className="w-5 h-5" />
@@ -337,8 +337,8 @@ export default function LapsTab({
                     onClick={() => setNewIcon('zap')}
                     className={`p-2.5 border rounded-xl flex items-center justify-center flex-1 cursor-pointer transition-all ${
                       newIcon === 'zap' 
-                        ? 'bg-orange-600 border-white/10 text-black font-bold' 
-                        : `${borderC5} ${cardBg} ${textSec} ${isDottedBgOn ? 'hover:text-[#0F0F0F] hover:bg-[#F0F0F0]' : 'hover:text-white hover:bg-[#2A2A2A]'}`
+                        ? 'bg-[#306D29] border-[#FBF5DD]/15 text-[#FBF5DD] font-bold' 
+                        : `${borderC5} ${cardBg} ${textSec} ${isDottedBgOn ? 'hover:text-[#0D530E] hover:bg-[#E7E1B1]' : 'hover:text-[#FBF5DD] hover:bg-[#1F5523]'}`
                     }`}
                   >
                     <Flame className="w-5 h-5" />
@@ -348,7 +348,7 @@ export default function LapsTab({
 
               <button
                 type="submit"
-                className="w-full h-12 bg-orange-600 hover:bg-orange-700 text-black font-sans text-xs font-bold uppercase tracking-widest rounded-xl cursor-pointer transition-colors mt-2"
+                className="w-full h-12 bg-[#306D29] hover:bg-[#0D530E] text-[#FBF5DD] font-sans text-xs font-bold uppercase tracking-widest rounded-xl cursor-pointer transition-colors mt-2"
               >
                 Log New Preset ⚓
               </button>

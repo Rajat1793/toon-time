@@ -123,8 +123,8 @@ export default function App() {
   }
 
   return (
-    <div className={`min-h-screen text-[#F0EFEA] flex flex-col font-sans transition-colors ${
-      appSettings.isDottedBgOn ? 'grid-bg bg-[#0F0F0F]' : 'bg-[#0F0F0F]'
+    <div className={`min-h-screen flex flex-col font-sans transition-colors ${
+      appSettings.isDottedBgOn ? 'grid-bg' : 'bg-[#0D530E]'
     }`}>
       {/* Header component */}
       <Header 
@@ -156,17 +156,17 @@ export default function App() {
               className="fixed inset-0 bg-black/75" 
               onClick={() => setShowSidebarMobile(false)}
             ></div>
-            <div className="relative bg-[#1A1A1A] w-64 h-[calc(100vh-5rem)] top-20 border-r border-white/10 p-5 flex flex-col gap-4 z-40 text-white">
-              <div className="flex items-center gap-3 p-3 bg-[#0F0F0F] border border-white/10 rounded-xl">
+            <div className="relative bg-[#16421A] w-64 h-[calc(100vh-5rem)] top-20 border-r border-[#FBF5DD]/15 p-5 flex flex-col gap-4 z-40 text-[#FBF5DD]">
+              <div className="flex items-center gap-3 p-3 bg-[#0D530E] border border-[#FBF5DD]/15 rounded-xl">
                 <img
                   src={userProfile.avatarUrl}
-                  className="w-10 h-10 rounded-full border border-white/10 bg-black/50 object-cover"
+                  className="w-10 h-10 rounded-full border border-[#FBF5DD]/15 bg-[#0D530E] object-cover"
                   alt={userProfile.name}
                   referrerPolicy="no-referrer"
                 />
                 <div>
-                  <p className="font-heading text-sm font-semibold leading-none text-white">{userProfile.name}</p>
-                  <p className="text-[10px] font-sans font-bold text-white/40 uppercase mt-1">Captain</p>
+                  <p className="font-heading text-sm font-semibold leading-none text-[#FBF5DD]">{userProfile.name}</p>
+                  <p className="text-[10px] font-sans font-bold text-[#FBF5DD]/40 uppercase mt-1">Captain</p>
                 </div>
               </div>
               <div className="flex flex-col gap-3 mt-4">
@@ -177,8 +177,8 @@ export default function App() {
                   }}
                   className={`flex items-center gap-3 p-3 font-sans text-xs font-bold rounded-xl cursor-pointer transition-all ${
                     currentView === 'stopwatch'
-                      ? 'bg-orange-600 text-black'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-[#306D29] text-[#FBF5DD]'
+                      : 'text-[#FBF5DD]/60 hover:text-[#FBF5DD] hover:bg-[#FBF5DD]/5'
                   }`}
                 >
                   <span>Stopwatch</span>
@@ -190,8 +190,8 @@ export default function App() {
                   }}
                   className={`flex items-center gap-3 p-3 font-sans text-xs font-bold rounded-xl cursor-pointer transition-all ${
                     currentView === 'timer'
-                      ? 'bg-orange-600 text-black'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-[#306D29] text-[#FBF5DD]'
+                      : 'text-[#FBF5DD]/60 hover:text-[#FBF5DD] hover:bg-[#FBF5DD]/5'
                   }`}
                 >
                   <span>Timer</span>
@@ -203,8 +203,8 @@ export default function App() {
                   }}
                   className={`flex items-center gap-3 p-3 font-sans text-xs font-bold rounded-xl cursor-pointer transition-all ${
                     currentView === 'laps'
-                      ? 'bg-orange-600 text-black'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-[#306D29] text-[#FBF5DD]'
+                      : 'text-[#FBF5DD]/60 hover:text-[#FBF5DD] hover:bg-[#FBF5DD]/5'
                   }`}
                 >
                   <span>Laps</span>
@@ -216,8 +216,8 @@ export default function App() {
                   }}
                   className={`flex items-center gap-3 p-3 font-sans text-xs font-bold rounded-xl cursor-pointer transition-all ${
                     currentView === 'tictactoe'
-                      ? 'bg-orange-600 text-black'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-[#306D29] text-[#FBF5DD]'
+                      : 'text-[#FBF5DD]/60 hover:text-[#FBF5DD] hover:bg-[#FBF5DD]/5'
                   }`}
                 >
                   <span>Tic Tac Toe</span>
@@ -230,7 +230,7 @@ export default function App() {
                     setShowUpgrade(true);
                     setShowSidebarMobile(false);
                   }}
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-black font-sans text-xs font-bold py-3 rounded-xl uppercase text-center cursor-pointer transition-colors"
+                  className="w-full bg-[#306D29] hover:bg-[#0D530E] text-[#FBF5DD] font-sans text-xs font-bold py-3 rounded-xl uppercase text-center cursor-pointer transition-colors"
                 >
                   Upgrade to Pro
                 </button>
@@ -289,12 +289,14 @@ export default function App() {
           setUserProfile={setUserProfile}
           appSettings={appSettings}
           setAppSettings={setAppSettings}
+          isDottedBgOn={appSettings.isDottedBgOn}
         />
       )}
 
       {showHelp && (
         <HelpModal 
-          onClose={() => setShowHelp(false)} 
+          onClose={() => setShowHelp(false)}
+          isDottedBgOn={appSettings.isDottedBgOn}
         />
       )}
 

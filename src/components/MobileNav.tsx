@@ -8,9 +8,9 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ currentView, onChangeView, isDottedBgOn }: MobileNavProps) {
-  const bg     = isDottedBgOn ? 'bg-white'            : 'bg-[#0F0F0F]';
-  const border = isDottedBgOn ? 'border-[#0F0F0F]/10' : 'border-white/10';
-  const inactive = isDottedBgOn ? 'text-[#0F0F0F]/50 hover:text-[#0F0F0F]' : 'text-white/60 hover:text-white';
+  const bg     = isDottedBgOn ? 'bg-[#FBF5DD]'           : 'bg-[#0D530E]';
+  const border = isDottedBgOn ? 'border-[#0D530E]/15'    : 'border-[#FBF5DD]/15';
+  const inactive = isDottedBgOn ? 'text-[#0D530E]/50 hover:text-[#0D530E]' : 'text-[#FBF5DD]/60 hover:text-[#FBF5DD]';
 
   return (
     <nav className={`md:hidden fixed bottom-0 left-0 w-full z-40 flex justify-around items-center h-20 ${bg} border-t ${border} px-4 shadow-xl`}>
@@ -25,7 +25,7 @@ export default function MobileNav({ currentView, onChangeView, isDottedBgOn }: M
           onClick={() => onChangeView(view)}
           className={`flex flex-col items-center justify-center flex-1 py-1.5 px-3 rounded-full transition-all active:scale-95 cursor-pointer ${
             currentView === view
-              ? 'bg-orange-600 text-black border border-orange-600 font-bold'
+              ? 'bg-[#306D29] text-[#FBF5DD] border border-[#306D29] font-bold'
               : inactive
           }`}
         >
