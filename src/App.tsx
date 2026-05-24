@@ -130,6 +130,7 @@ export default function App() {
       <Header 
         onOpenSettings={() => setShowSettings(true)} 
         onOpenHelp={() => setShowHelp(true)} 
+        onOpenUpgrade={() => setShowUpgrade(true)}
         onToggleSidebar={handleToggleSidebarMobile}
         isDottedBgOn={appSettings.isDottedBgOn}
       />

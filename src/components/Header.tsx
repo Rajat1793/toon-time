@@ -1,13 +1,14 @@
-import { HelpCircle, Settings, Menu } from 'lucide-react';
+import { HelpCircle, Settings, Menu, Star } from 'lucide-react';
 
 interface HeaderProps {
   onOpenSettings: () => void;
   onOpenHelp: () => void;
+  onOpenUpgrade: () => void;
   onToggleSidebar?: () => void;
   isDottedBgOn: boolean;
 }
 
-export default function Header({ onOpenSettings, onOpenHelp, onToggleSidebar, isDottedBgOn }: HeaderProps) {
+export default function Header({ onOpenSettings, onOpenHelp, onOpenUpgrade, onToggleSidebar, isDottedBgOn }: HeaderProps) {
   const bg     = isDottedBgOn ? 'bg-[#FBF5DD]'          : 'bg-[#0D530E]';
   const border = isDottedBgOn ? 'border-[#0D530E]/15'   : 'border-[#FBF5DD]/15';
   const text   = isDottedBgOn ? 'text-[#0D530E]'         : 'text-[#FBF5DD]';
@@ -32,6 +33,14 @@ export default function Header({ onOpenSettings, onOpenHelp, onToggleSidebar, is
       </div>
       
       <div className="flex gap-3">
+        {/* Upgrade to Pro — mobile only (desktop uses Sidebar) */}
+        <button
+          onClick={onOpenUpgrade}
+          className={`md:hidden w-11 h-11 flex items-center justify-center p-2 border ${btnBorder} rounded-full bg-[#306D29] text-[#FBF5DD] hover:bg-[#0D530E] transition-all cursor-pointer`}
+          title="Upgrade to Pro"
+        >
+          <Star className="w-4 h-4 pointer-events-none" fill="currentColor" />
+        </button>
         <button
           onClick={onOpenHelp}
           className={`w-11 h-11 flex items-center justify-center p-2 border ${btnBorder} rounded-full bg-transparent ${text} hover:bg-[#0D530E] hover:text-[#FBF5DD] hover:border-[#0D530E] transition-all cursor-pointer`}

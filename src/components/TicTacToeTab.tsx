@@ -3,7 +3,7 @@ import { RotateCcw, Trophy, Minus, Globe, Monitor, Copy, Check, Loader2, ArrowLe
 
 type Cell = 'X' | 'O' | null;
 type GameMode    = 'select' | 'local' | 'online';
-type OnlinePhase = 'menu' | 'join-input' | 'waiting' | 'playing' | 'disconnected';
+type OnlinePhase = 'menu' | 'join-input' | 'connecting' | 'waiting' | 'playing' | 'disconnected';
 
 const WINNING_LINES = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -125,9 +125,23 @@ export default function TicTacToeTab({ isDottedBgOn }: TicTacToeTabProps) {
     }
   }
 
-  function connect(initialMessage: object) {
+  async function connect(initialMessage: object) {
     closeWS();
     setOnlineError('');
+    setOnlinePhase('connecting');
+
+    // Wake up the free-tier server via HTTP before opening the WebSocket.
+    // On Render free plan, a cold-start can take 30-50s which causes mobile
+    // browsers to drop the WS connection before the server is ready.
+    const httpOrigin = WS_URL.replace(/^wss?:\/\//, 'https://').replace(/^ws:\/\//, 'http://');
+    try {
+      await fetch(httpOrigin, { signal: AbortSignal.timeout(50000) });
+    } catch (_) {
+      setOnlineError('Server is taking too long to wake up. Please try again.');
+      setOnlinePhase('menu');
+      return;
+    }
+
     const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
 
@@ -201,8 +215,8 @@ export default function TicTacToeTab({ isDottedBgOn }: TicTacToeTabProps) {
     wsRef.current.send(JSON.stringify({ type: 'MAKE_MOVE', index }));
   }
 
-  function handleCreateRoom()  { connect({ type: 'CREATE_ROOM' }); }
-  function handleJoinRoom()    { if (joinInput.length >= 4) connect({ type: 'JOIN_ROOM', roomCode: joinInput }); }
+  function handleCreateRoom()  { void connect({ type: 'CREATE_ROOM' }); }
+  function handleJoinRoom()    { if (joinInput.length >= 4) void connect({ type: 'JOIN_ROOM', roomCode: joinInput }); }
   function handleNewGameOnline() { wsRef.current?.send(JSON.stringify({ type: 'NEW_GAME' })); }
 
   function handleCopyCode() {
@@ -352,7 +366,26 @@ export default function TicTacToeTab({ isDottedBgOn }: TicTacToeTabProps) {
     );
   }
 
-  // ── 3. Online — Join Input ────────────────────────────────────────────────
+  // ── 3. Online — Connecting (warm-up) ─────────────────────────────────────
+  if (gameMode === 'online' && onlinePhase === 'connecting') {
+    return (
+      <div className="flex flex-col items-center gap-6 max-w-sm mx-auto w-full py-16">
+        <Loader2 className="w-14 h-14 text-[#306D29] animate-spin" />
+        <div className="text-center">
+          <p className={`font-sans text-base font-bold ${textPrimary}`}>Waking up the server…</p>
+          <p className={`font-sans text-xs mt-2 ${textMuted}`}>Free hosting may take up to 30 seconds on first connection.</p>
+        </div>
+        <button
+          onClick={() => { closeWS(); setOnlinePhase('menu'); }}
+          className={`text-xs ${textMuted} underline cursor-pointer mt-2`}
+        >
+          Cancel
+        </button>
+      </div>
+    );
+  }
+
+  // ── 4. Online — Join Input ────────────────────────────────────────────────
   if (gameMode === 'online' && onlinePhase === 'join-input') {
     return (
       <div className="flex flex-col gap-8 max-w-sm mx-auto w-full">
