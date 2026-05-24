@@ -21,7 +21,8 @@ function getWinner(board: Cell[]): { winner: Cell; line: number[] } | null {
 }
 
 // In dev: ws://localhost:8080  |  In prod: set VITE_WS_URL env var in Render
-const WS_URL = (import.meta.env.VITE_WS_URL as string) || 'ws://localhost:8080';
+const WS_URL = (import.meta.env.VITE_WS_URL as string)
+  || (import.meta.env.DEV ? 'ws://localhost:8080' : 'wss://toon-time-ws.onrender.com');
 
 interface TicTacToeTabProps {
   isDottedBgOn: boolean;
@@ -133,13 +134,17 @@ export default function TicTacToeTab({ isDottedBgOn }: TicTacToeTabProps) {
     // Wake up the free-tier server via HTTP before opening the WebSocket.
     // On Render free plan, a cold-start can take 30-50s which causes mobile
     // browsers to drop the WS connection before the server is ready.
-    const httpOrigin = WS_URL.replace(/^wss?:\/\//, 'https://').replace(/^ws:\/\//, 'http://');
-    try {
-      await fetch(httpOrigin, { signal: AbortSignal.timeout(50000) });
-    } catch (_) {
-      setOnlineError('Server is taking too long to wake up. Please try again.');
-      setOnlinePhase('menu');
-      return;
+    // Skip the ping entirely for local dev.
+    const isLocalhost = WS_URL.includes('localhost') || WS_URL.includes('127.0.0.1');
+    if (!isLocalhost) {
+      const httpOrigin = WS_URL.replace(/^wss:\/\//, 'https://').replace(/^ws:\/\//, 'http://');
+      try {
+        await fetch(httpOrigin, { signal: AbortSignal.timeout(50000) });
+      } catch (_) {
+        setOnlineError('Server is taking too long to wake up. Please try again.');
+        setOnlinePhase('menu');
+        return;
+      }
     }
 
     const ws = new WebSocket(WS_URL);
